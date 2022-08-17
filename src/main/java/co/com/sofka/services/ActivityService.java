@@ -1,7 +1,6 @@
 package co.com.sofka.services;
 
 import co.com.sofka.dto.ActivityDto;
-import co.com.sofka.model.Activity;
 import co.com.sofka.repository.ActivityRepository;
 import co.com.sofka.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +28,15 @@ public class ActivityService {
                 .map(AppUtils::entityToDto);
     }
 
+    public Mono<ActivityDto> updateActivity(Mono<ActivityDto> activityDtoMono, String id){
+        return repo.findById(id)
+                .flatMap(p -> activityDtoMono.map(AppUtils::dtoToEntity)
+                        .doOnNext(e->e.setId(id)))
+                .flatMap(repo::save)
+                .map(AppUtils::entityToDto);
+    }
 
+    public Mono<Void> deleteActivity(String id){
+        return repo.deleteById(id);
+    }
 }
