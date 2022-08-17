@@ -1,0 +1,9 @@
+spring:
+  data:
+    mongodb:
+      database: Activitiesdb
+      host: localhost
+      port: 27017
+
+server:
+  port: 8080
